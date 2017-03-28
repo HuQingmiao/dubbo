@@ -102,9 +102,13 @@ public class CollectionSerializer extends AbstractSerializer {
         try {
             Field[] fields = obj.getClass().getDeclaredFields();
             for (Field field : fields) {
-                if(Modifier.isStatic(field.getModifiers())){
+                if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
                     continue;
                 }
+                if (!field.getType().getName().startsWith("java.lang.") || field.getType().equals(Object.class)) {
+                    continue;
+                }
+
                 boolean isAccessible = field.isAccessible();
                 if (!isAccessible) {
                     field.setAccessible(true);
