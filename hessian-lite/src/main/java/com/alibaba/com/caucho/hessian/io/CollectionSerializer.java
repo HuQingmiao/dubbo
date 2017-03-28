@@ -105,7 +105,9 @@ public class CollectionSerializer extends AbstractSerializer {
                 if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
                     continue;
                 }
-                if (!field.getType().getName().startsWith("java.lang.") || field.getType().equals(Object.class)) {
+
+                // 如果扩展的属性是Collection类型，则不再重复读写
+                if (java.util.Collection.class.isAssignableFrom(field.getType())) {
                     continue;
                 }
 
