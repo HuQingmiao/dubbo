@@ -95,7 +95,7 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     field.setAccessible(isAccessible);
                 }
             } catch (IllegalAccessException e) {
-                throw new IOException(e);
+                throw new IOException(e.getMessage());
             }
         }
         /** end **/
@@ -136,7 +136,7 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     field.setAccessible(isAccessible);
                 }
             } catch (IllegalAccessException e) {
-                throw new IOException(e);
+                throw new IOException(e.getMessage());
             }
         }
         /** end **/
