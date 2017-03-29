@@ -80,26 +80,23 @@ public class CollectionDeserializer extends AbstractListDeserializer {
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
         /** begin **/
-        try {
-            Field[] fields = list.getClass().getDeclaredFields();
-            for (Field field : fields) {
-                if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
-                    continue;
+        if (!list.getClass().getName().startsWith("java.")) {
+            try {
+                Field[] fields = list.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
+                        continue;
+                    }
+                    boolean isAccessible = field.isAccessible();
+                    if (!isAccessible) {
+                        field.setAccessible(true);
+                    }
+                    field.set(list, in.readObject());
+                    field.setAccessible(isAccessible);
                 }
-                // 如果扩展的属性是Collection类型，则不再重复读写
-                if (java.util.Collection.class.isAssignableFrom(field.getType())) {
-                    continue;
-                }
-
-                boolean isAccessible = field.isAccessible();
-                if (!isAccessible) {
-                    field.setAccessible(true);
-                }
-                field.set(list, in.readObject());
-                field.setAccessible(isAccessible);
+            } catch (IllegalAccessException e) {
+                throw new IOException(e);
             }
-        } catch (IllegalAccessException e) {
-            throw new IOException(e);
         }
         /** end **/
 
@@ -124,26 +121,23 @@ public class CollectionDeserializer extends AbstractListDeserializer {
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
         /** begin **/
-        try {
-            Field[] fields = list.getClass().getDeclaredFields();
-            for (Field field : fields) {
-                if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
-                    continue;
+        if (!list.getClass().getName().startsWith("java.")) {
+            try {
+                Field[] fields = list.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
+                        continue;
+                    }
+                    boolean isAccessible = field.isAccessible();
+                    if (!isAccessible) {
+                        field.setAccessible(true);
+                    }
+                    field.set(list, in.readObject());
+                    field.setAccessible(isAccessible);
                 }
-                // 如果扩展的属性是Collection类型，则不再重复读写
-                if (java.util.Collection.class.isAssignableFrom(field.getType())) {
-                    continue;
-                }
-
-                boolean isAccessible = field.isAccessible();
-                if (!isAccessible) {
-                    field.setAccessible(true);
-                }
-                field.set(list, in.readObject());
-                field.setAccessible(isAccessible);
+            } catch (IllegalAccessException e) {
+                throw new IOException(e);
             }
-        } catch (IllegalAccessException e) {
-            throw new IOException(e);
         }
         /** end **/
 
