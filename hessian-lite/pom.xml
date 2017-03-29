@@ -12,4 +12,13 @@
     <packaging>jar</packaging>
     <version>3.2.1-fixed-2</version>
     <name>Hessian Lite(Alibaba embed version)</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.8</version>
+        </dependency>
+    </dependencies>
+
 </project>
