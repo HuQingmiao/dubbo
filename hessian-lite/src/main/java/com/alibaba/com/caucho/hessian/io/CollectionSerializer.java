@@ -52,9 +52,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Serializing a JDK 1.2 Collection.
@@ -99,10 +97,17 @@ public class CollectionSerializer extends AbstractSerializer {
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
         /** begin **/
-        if (!obj.getClass().getName().startsWith("java.")) {
-            try {
+        //记录已经写过的子类属性，以离被同名父类属性覆盖
+        Set<String> fieldNameSet = new HashSet<String>();
+        try {
+            Class clasz = obj.getClass();
+            for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
                 Field[] fields = obj.getClass().getDeclaredFields();
                 for (Field field : fields) {
+                    // 子类属性已被写入，不再写入同名父属性
+                    if(fieldNameSet.contains(field.getName())){
+                        continue;
+                    }
                     if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
                         continue;
                     }
@@ -113,11 +118,15 @@ public class CollectionSerializer extends AbstractSerializer {
                     Object val = field.get(obj);
                     out.writeObject(val);
                     field.setAccessible(isAccessible);
+
+                    // 记录已写过的属性
+                    fieldNameSet.add(field.getName());
                 }
-            } catch (IllegalAccessException e) {
-                throw new IOException(e.getMessage());
             }
+        } catch (IllegalAccessException e) {
+            throw new IOException(e.getMessage());
         }
+
         /** end **/
 
         Iterator iter = list.iterator();
