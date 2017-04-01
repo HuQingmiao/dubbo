@@ -99,7 +99,7 @@ public class CollectionSerializer extends AbstractSerializer {
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
         /** begin **/
-        if (!list.getClass().getName().startsWith("java.")) {
+        if (!obj.getClass().getName().startsWith("java.")) {
             try {
                 Field[] fields = obj.getClass().getDeclaredFields();
                 for (Field field : fields) {
