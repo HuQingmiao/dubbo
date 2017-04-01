@@ -80,8 +80,9 @@ public class CollectionDeserializer extends AbstractListDeserializer {
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
         /** begin **/
-        if (!list.getClass().getName().startsWith("java.")) {
-            try {
+        try {
+            Class clasz = list.getClass();
+            for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
                 Field[] fields = list.getClass().getDeclaredFields();
                 for (Field field : fields) {
                     if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
@@ -94,9 +95,9 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     field.set(list, in.readObject());
                     field.setAccessible(isAccessible);
                 }
-            } catch (IllegalAccessException e) {
-                throw new IOException(e.getMessage());
             }
+        } catch (IllegalAccessException e) {
+            throw new IOException(e.getMessage());
         }
         /** end **/
 
@@ -121,8 +122,9 @@ public class CollectionDeserializer extends AbstractListDeserializer {
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
         /** begin **/
-        if (!list.getClass().getName().startsWith("java.")) {
-            try {
+        try {
+            Class clasz = list.getClass();
+            for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
                 Field[] fields = list.getClass().getDeclaredFields();
                 for (Field field : fields) {
                     if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
@@ -135,9 +137,9 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     field.set(list, in.readObject());
                     field.setAccessible(isAccessible);
                 }
-            } catch (IllegalAccessException e) {
-                throw new IOException(e.getMessage());
             }
+        } catch (IllegalAccessException e) {
+            throw new IOException(e.getMessage());
         }
         /** end **/
 

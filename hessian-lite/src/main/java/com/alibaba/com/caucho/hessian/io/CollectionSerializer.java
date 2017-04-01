@@ -100,9 +100,9 @@ public class CollectionSerializer extends AbstractSerializer {
         //记录已经写过的子类属性，以离被同名父类属性覆盖
         Set<String> fieldNameSet = new HashSet<String>();
         try {
-            Class clasz = obj.getClass();
+            Class clasz = list.getClass();
             for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
-                Field[] fields = obj.getClass().getDeclaredFields();
+                Field[] fields = list.getClass().getDeclaredFields();
                 for (Field field : fields) {
                     // 子类属性已被写入，不再写入同名父属性
                     if(fieldNameSet.contains(field.getName())){
@@ -115,7 +115,7 @@ public class CollectionSerializer extends AbstractSerializer {
                     if (!isAccessible) {
                         field.setAccessible(true);
                     }
-                    Object val = field.get(obj);
+                    Object val = field.get(list);
                     out.writeObject(val);
                     field.setAccessible(isAccessible);
 
@@ -126,7 +126,7 @@ public class CollectionSerializer extends AbstractSerializer {
         } catch (IllegalAccessException e) {
             throw new IOException(e.getMessage());
         }
-
+        fieldNameSet.clear();
         /** end **/
 
         Iterator iter = list.iterator();
