@@ -22,5 +22,23 @@
 ```
 
 
+```
 
+### 编译说明
+1) 本工程的根模块是dubbo-parent, 不是dubbo, 因此只要找到dubbo-parent模块进行compile/package。
 
+2) 若编码报错, 可能需要先下载[opensesame](https://github.com/alibaba/opensesame.git)的源码, 再install到本地仓库。
+
+3) 在dubbo-parent的pom.xml文件中，增加以下内容，使得编译产出为jdk1.6的目标文件
+```
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+```
