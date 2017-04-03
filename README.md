@@ -42,10 +42,10 @@
 ```
 
 ### 如何调试
-  方式一：
+  方式一：<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;进入模块dubbo-demo，直接运行com.alibaba.dubbo.demo.provider.DemoProvider，即可启动服务； 然后运行
 DemoConsumer即可运行消费者。
 
-  方式二：
+  方式二：<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;先安装zookeeper(下载，解压，改名/conf/zoo_sample.cfg -> zoo.cfg 即可)，然后 运行bin/zkServer.bat启动zk；<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;进入模块dubbo-demo，直接运行com.alibaba.dubbo.demo.provider.Server，即可启动服务； 然后运行Client即可运行消费者。
