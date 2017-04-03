@@ -2164,6 +2164,9 @@ public class Hessian2Input
 
                 Deserializer reader;
 
+                /**
+                 * Modified by HuQingmiao on 2017-04-01
+                 */
                 // getListDeserializer(null, cl) -> getListDeserializer(type, cl);
                 reader = findSerializerFactory().getListDeserializer(type, cl);
 
