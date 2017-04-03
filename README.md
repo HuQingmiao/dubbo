@@ -27,7 +27,7 @@
 
 2) 若编码报错, 可以试试先下载[opensesame](https://github.com/alibaba/opensesame.git)的源码, 再install到本地仓库。
 
-3) 在dubbo-parent的pom.xml文件中，增加以下内容，使得编译产出为jdk1.6的目标文件
+3) 在dubbo-parent的pom.xml文件中，增加以下内容，使得编译产出为jdk1.6的目标文件或你希望的目标文件版本：
 ```
 	<plugin>
 		<groupId>org.apache.maven.plugins</groupId>
