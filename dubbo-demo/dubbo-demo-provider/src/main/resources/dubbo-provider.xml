@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ - Copyright 1999-2011 Alibaba Group.
+ -  
+ - Licensed under the Apache License, Version 2.0 (the "License");
+ - you may not use this file except in compliance with the License.
+ - You may obtain a copy of the License at
+ -  
+ -      http://www.apache.org/licenses/LICENSE-2.0
+ -  
+ - Unless required by applicable law or agreed to in writing, software
+ - distributed under the License is distributed on an "AS IS" BASIS,
+ - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ - See the License for the specific language governing permissions and
+ - limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+ <bean id="demoService" class="com.alibaba.dubbo.demo.provider.DemoServiceImpl"/>
+ <bean id="bookService" class="com.alibaba.dubbo.demo.provider.BookServiceImpl"/>
+
+
+ <!-- 服务提供方应用名，用于计算依赖关系，不是匹配条件，无需与服务提供方一致 -->
+ <dubbo:application name="provider-of-dubbo"/>
+
+ <!-- 注册中心的地址、端口、协议 DEV-->
+ <!--<dubbo:registry protocol="zookeeper" address="10.75.201.49:2181"/>-->
+ <!--<dubbo:protocol name="dubbo" port="20880"/>-->
+
+ <!-- 注册中心的地址、端口、协议 ST-->
+ <dubbo:registry protocol="zookeeper" address="127.0.0.1:2181"/>
+ <dubbo:protocol name="dubbo" port="20880"/>
+
+ <dubbo:service interface="com.alibaba.dubbo.demo.BookService" ref="bookService"/>
+
+</beans>
