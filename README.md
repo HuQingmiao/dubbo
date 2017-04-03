@@ -6,7 +6,7 @@
 [alibaba/dubbo](https://github.com/alibaba/dubbo) 或 [wiki](https://github.com/alibaba/dubbo/wiki)
 
 
-### 修改内容
+### 修改内容摘要
 
 本项目源码 forked from [alibaba/dubbo](https://github.com/alibaba/dubbo), 相对于原来版本2.5.4-SNAPSHOT, 修改了如下内容：
 
@@ -22,12 +22,10 @@
 ```
 
 
-```
-
-### 编译说明
+### 如何编译源码
 1) 本工程的根模块是dubbo-parent, 不是dubbo, 因此只要找到dubbo-parent模块进行compile/package。
 
-2) 若编码报错, 可能需要先下载[opensesame](https://github.com/alibaba/opensesame.git)的源码, 再install到本地仓库。
+2) 若编码报错, 可以试试先下载[opensesame](https://github.com/alibaba/opensesame.git)的源码, 再install到本地仓库。
 
 3) 在dubbo-parent的pom.xml文件中，增加以下内容，使得编译产出为jdk1.6的目标文件
 ```
