@@ -48,6 +48,9 @@
 
 package com.alibaba.com.caucho.hessian.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -57,6 +60,8 @@ import java.util.*;
  * Deserializing a JDK 1.2 Collection.
  */
 public class CollectionDeserializer extends AbstractListDeserializer {
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     private Class _type;
 
@@ -80,11 +85,19 @@ public class CollectionDeserializer extends AbstractListDeserializer {
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
         /** begin **/
+        //记录已经读过的子类属性，以防被同名父类属性覆盖
+        Set<String> fieldNameSet = new HashSet<String>();
         try {
             Class clasz = list.getClass();
             for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
-                Field[] fields = list.getClass().getDeclaredFields();
+                Field[] fields = clasz.getDeclaredFields();
                 for (Field field : fields) {
+                    log.debug(">>1 "+clasz.getSimpleName()+"."+field.getName()+" "+field.getType());
+
+                    // 子类属性已被读取，不再读取同名父属性
+                    if(fieldNameSet.contains(field.getName())){
+                        continue;
+                    }
                     if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
                         continue;
                     }
@@ -92,13 +105,21 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     if (!isAccessible) {
                         field.setAccessible(true);
                     }
-                    field.set(list, in.readObject());
+
+                    Object val = in.readObject();
+                    log.debug(">>1 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType() + " " + val);
+
+                    field.set(list, val);
                     field.setAccessible(isAccessible);
+
+                    // 记录已记取的属性
+                    fieldNameSet.add(field.getName());
                 }
             }
         } catch (IllegalAccessException e) {
             throw new IOException(e.getMessage());
         }
+        fieldNameSet.clear();
         /** end **/
 
 
@@ -122,11 +143,19 @@ public class CollectionDeserializer extends AbstractListDeserializer {
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
         /** begin **/
+        //记录已经读过的子类属性，以防被同名父类属性覆盖
+        Set<String> fieldNameSet = new HashSet<String>();
         try {
             Class clasz = list.getClass();
             for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
-                Field[] fields = list.getClass().getDeclaredFields();
+                Field[] fields = clasz.getDeclaredFields();
                 for (Field field : fields) {
+                    log.debug(">>2 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());
+
+                    // 子类属性已被读取，不再读取同名父属性
+                    if(fieldNameSet.contains(field.getName())){
+                        continue;
+                    }
                     if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
                         continue;
                     }
@@ -134,13 +163,21 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     if (!isAccessible) {
                         field.setAccessible(true);
                     }
-                    field.set(list, in.readObject());
+
+                    Object val = in.readObject();
+                    log.debug(">>2 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType() + " " + val);
+
+                    field.set(list, val);
                     field.setAccessible(isAccessible);
+
+                    // 记录已记取的属性
+                    fieldNameSet.add(field.getName());
                 }
             }
         } catch (IllegalAccessException e) {
             throw new IOException(e.getMessage());
         }
+        fieldNameSet.clear();
         /** end **/
 
         for (; length > 0; length--)
