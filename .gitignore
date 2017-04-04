@@ -2,7 +2,6 @@
 target/
 *.jar
 *.war
-*.zip
 *.tar
 *.tar.gz
 
