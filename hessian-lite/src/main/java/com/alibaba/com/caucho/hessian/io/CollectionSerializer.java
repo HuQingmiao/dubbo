@@ -48,8 +48,6 @@
 
 package com.alibaba.com.caucho.hessian.io;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -61,7 +59,7 @@ import java.util.*;
  * Serializing a JDK 1.2 Collection.
  */
 public class CollectionSerializer extends AbstractSerializer {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+    //private Logger log = LoggerFactory.getLogger(this.getClass());
 
     private boolean _sendJavaType = true;
 
@@ -109,7 +107,7 @@ public class CollectionSerializer extends AbstractSerializer {
             for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
                 Field[] fields = clasz.getDeclaredFields();
                 for (Field field : fields) {
-                    log.debug(">> " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());
+                    //log.debug(">> " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());
 
                     // 子类属性已被写入，不再写入同名父属性
                     if(fieldNameSet.contains(field.getName())){
@@ -124,7 +122,7 @@ public class CollectionSerializer extends AbstractSerializer {
                     }
 
                     Object val = field.get(list);
-                    log.debug(">> "+clasz.getSimpleName()+" "+field.getName()+" "+field.getType()+" "+val);
+                    //log.debug(">> "+clasz.getSimpleName()+" "+field.getName()+" "+field.getType()+" "+val);
 
                     out.writeObject(val);
                     field.setAccessible(isAccessible);
