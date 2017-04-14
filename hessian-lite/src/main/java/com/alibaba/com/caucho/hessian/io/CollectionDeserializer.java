@@ -48,8 +48,6 @@
 
 package com.alibaba.com.caucho.hessian.io;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -61,7 +59,7 @@ import java.util.*;
  */
 public class CollectionDeserializer extends AbstractListDeserializer {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+    //private Logger log = LoggerFactory.getLogger(this.getClass());
 
     private Class _type;
 
@@ -92,7 +90,7 @@ public class CollectionDeserializer extends AbstractListDeserializer {
             for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
                 Field[] fields = clasz.getDeclaredFields();
                 for (Field field : fields) {
-                    log.debug(">>1 "+clasz.getSimpleName()+"."+field.getName()+" "+field.getType());
+                    //log.debug(">>1 "+clasz.getSimpleName()+"."+field.getName()+" "+field.getType());
 
                     // 子类属性已被读取，不再读取同名父属性
                     if(fieldNameSet.contains(field.getName())){
@@ -107,7 +105,7 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     }
 
                     Object val = in.readObject();
-                    log.debug(">>1 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType() + " " + val);
+                    //log.debug(">>1 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType() + " " + val);
 
                     field.set(list, val);
                     field.setAccessible(isAccessible);
@@ -150,7 +148,7 @@ public class CollectionDeserializer extends AbstractListDeserializer {
             for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
                 Field[] fields = clasz.getDeclaredFields();
                 for (Field field : fields) {
-                    log.debug(">>2 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());
+                    //log.debug(">>2 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());
 
                     // 子类属性已被读取，不再读取同名父属性
                     if(fieldNameSet.contains(field.getName())){
@@ -165,7 +163,7 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     }
 
                     Object val = in.readObject();
-                    log.debug(">>2 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType() + " " + val);
+                    //log.debug(">>2 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType() + " " + val);
 
                     field.set(list, val);
                     field.setAccessible(isAccessible);
