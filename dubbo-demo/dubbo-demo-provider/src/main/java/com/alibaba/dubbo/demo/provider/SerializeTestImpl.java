@@ -1,7 +1,13 @@
 package com.alibaba.dubbo.demo.provider;
 
 import com.alibaba.dubbo.demo.SerializeTestService;
+import com.alibaba.dubbo.demo.vo.Book;
+import com.alibaba.dubbo.demo.vo.MyFjArray;
 import com.alibaba.fastjson.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by huqingmiao on 2017-8-23.
@@ -21,5 +27,25 @@ public class SerializeTestImpl implements SerializeTestService {
         System.out.println("\n>>>>>>>>>>>>>Provider:\n"+str);
         JSONObject obj = JSONObject.parseObject(str);
         return obj;
+    }
+
+    @Override
+    public MyFjArray ttt2() {
+
+        MyFjArray array = new MyFjArray();
+
+        List<Object> list = new ArrayList<Object>();
+
+        Book book2 = new Book();
+        book2.setBookId(5552L);
+        book2.setPrice(800.0D);
+        book2.setTitle("Unssssssssssssdrr程2");
+        book2.setPublishTime(new java.sql.Date(new Date().getTime()));
+        list.add(book2);
+        list.add(book2);
+
+        array.addAll(list);
+
+        return array;
     }
 }

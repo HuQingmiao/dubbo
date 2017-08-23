@@ -1,6 +1,7 @@
 package com.alibaba.dubbo.demo;
 
 
+import com.alibaba.dubbo.demo.vo.MyFjArray;
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -8,5 +9,8 @@ import com.alibaba.fastjson.JSONObject;
  */
 public interface SerializeTestService {
     JSONObject ttt();
+
+
+    MyFjArray ttt2();
 }
 

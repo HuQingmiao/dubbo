@@ -45,6 +45,13 @@ public class BookServiceImpl implements BookService {
             b.setPrice(220.0D);
             b.setTitle("asdfasr不知道2");
             aList.add(b);
+
+            Book b3 = new Book();
+            b3.setBookId(55445L);
+            b3.setPrice(234420.0D);
+            b3.setTitle("safasf");
+            aList.add(b3);
+
             book.setaList(aList);
         }
 

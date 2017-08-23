@@ -104,7 +104,18 @@ public class CollectionSerializer extends AbstractSerializer {
         Set<String> fieldNameSet = new HashSet<String>();
         try {
             Class clasz = list.getClass();
+
+            // 不处理java库本身的collection类，只处理自定义的collection类
             for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
+
+                /**
+                 * 通常认为只有Collection的子类才会进入本类反序列化, 但是com.alibaba.fastjson.JSONArray也进入本类反序列化, 虽然它不是Collection的子类,
+                 * 因此必须将其排除, 使其按照fastjson本身的机制序列化.  _2017-08-23
+                 */
+                if (clasz.getName().startsWith("com.alibaba.fastjson.")) {
+                    continue;
+                }
+
                 Field[] fields = clasz.getDeclaredFields();
                 for (Field field : fields) {
                     //log.debug(">> " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());

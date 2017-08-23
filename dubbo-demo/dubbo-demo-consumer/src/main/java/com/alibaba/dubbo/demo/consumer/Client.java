@@ -1,9 +1,11 @@
 package com.alibaba.dubbo.demo.consumer;
 
 
+import ch.qos.logback.core.db.dialect.MySQLDialect;
 import com.alibaba.dubbo.demo.BookService;
 import com.alibaba.dubbo.demo.SerializeTestService;
 import com.alibaba.dubbo.demo.vo.Book;
+import com.alibaba.dubbo.demo.vo.MyFjArray;
 import com.alibaba.dubbo.demo.vo.PageList;
 import com.alibaba.dubbo.demo.vo.SubList;
 import com.alibaba.fastjson.JSONObject;
@@ -61,21 +63,34 @@ public class Client {
         System.out.println("\n>>>>>>>>>>>>>Consumer:\n"+jsonObject.toJSONString());
     }
 
+    public void callTtt2() {
+        SerializeTestService serializeTestService = (SerializeTestService) context.getBean("serializeTestService");
+        MyFjArray array = serializeTestService.ttt2();
+
+        List<Object> list =array.getAll();
+        for (Object obj : list) {
+            log.info(">> " + obj.toString());
+        }
+    }
+
+
     public static void main(String[] args) {
         log.info("-----------------------------------");
 
         Client client = new Client();
-//
-//        log.info(" --------- callFindBooks:  ");
-//        client.callFindBooks();
-//
-//        log.info(" --------- callFindAllBooks:  ");
-//        client.callFindAllBooks();
-//
-//        log.info(" --------- callFindAllBooksHehe:  ");
-//        client.callFindAllBooksHehe();
+
+        log.info(" --------- callFindBooks:  ");
+        client.callFindBooks();
+
+        log.info(" --------- callFindAllBooks:  ");
+        client.callFindAllBooks();
+
+        log.info(" --------- callFindAllBooksHehe:  ");
+        client.callFindAllBooksHehe();
 
         log.info(" --------- callTtt:  ");
         client.catTtt();
+
+//        client.callTtt2();
     }
 }
