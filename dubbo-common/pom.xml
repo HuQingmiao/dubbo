@@ -54,7 +54,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<scope>provided</scope>
+			<version>1.2.29</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.sorcerer</groupId>

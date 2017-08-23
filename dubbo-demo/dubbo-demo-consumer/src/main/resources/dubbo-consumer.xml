@@ -17,7 +17,11 @@
     <!-- 注册中心服务地址 ST -->
     <dubbo:registry  protocol="zookeeper"  address="127.0.0.1:2181" />
 
+    <dubbo:reference id="helloService" interface="com.alibaba.dubbo.demo.HelloService" check="false"/>
 
     <dubbo:reference id="bookService" interface="com.alibaba.dubbo.demo.BookService" check="false"/>
+
+    <dubbo:reference id="serializeTestService" interface="com.alibaba.dubbo.demo.SerializeTestService" check="false"/>
+
 
 </beans>

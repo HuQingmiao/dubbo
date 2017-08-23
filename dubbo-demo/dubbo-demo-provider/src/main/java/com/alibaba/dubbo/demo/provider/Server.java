@@ -15,5 +15,7 @@ public class Server {
 
         System.out.println("按任意键退出...");
         System.in.read();
+
+//        com.alibaba.dubbo.container.Main.main(args);
     }
 }
