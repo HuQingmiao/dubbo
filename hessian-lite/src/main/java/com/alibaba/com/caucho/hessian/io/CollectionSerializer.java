@@ -103,7 +103,7 @@ public class CollectionSerializer extends AbstractSerializer {
         try {
             Class clasz = list.getClass();
 
-            // 不处理fastjosn包下的JSONObject类
+            // 不处理fastjosn包下的JSONArray类
             if (!clasz.getName().startsWith("com.alibaba.fastjson")) {
 
                 //记录已经写过的子类属性，以防被同名父类属性覆盖
