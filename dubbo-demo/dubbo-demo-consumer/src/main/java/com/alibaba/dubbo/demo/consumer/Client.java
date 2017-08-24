@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -42,6 +39,19 @@ public class Client {
         for (Book book : pList) {
             log.info(">> " + book.toString());
         }
+
+        log.info(">> abList: " + pList.getAbList().size());
+        log.info(">> abList: " + pList.getAbList().get(0));
+
+        Map<String, Long[]> map = pList.getAbMap();
+        for (Iterator it = map.keySet().iterator(); it.hasNext(); ) {
+            String key = (String) it.next();
+            Long[] ls = map.get(key);
+            log.info("\n");
+            for (Long l : ls) {
+                log.info(">> "+l);
+            }
+        }
     }
 
     public void callFindAllBooksHehe() {
@@ -59,7 +69,7 @@ public class Client {
     public void catTtt() {
         SerializeTestService serializeTestService = (SerializeTestService) context.getBean("serializeTestService");
         JSONObject jsonObject = serializeTestService.ttt();
-        System.out.println("\n>>>>>>>>>>>>>Consumer:\n"+jsonObject.toJSONString());
+        System.out.println("\n>>>>>>>>>>>>>Consumer:\n" + jsonObject.toJSONString());
     }
 
     public void callTtt2() {
@@ -75,36 +85,34 @@ public class Client {
 
     public void rmap() {
         BookService bookService = (BookService) context.getBean("bookService");
-        SubMap map=  bookService.rmap();
+        SubMap map = bookService.rmap();
 
-        for(Iterator it = map.keySet().iterator();it.hasNext();){
-            String key = (String)it.next();
-            System.out.println(key+": "+map.get(key));
-            System.out.println("str: "+map.getStr());
+        for (Iterator it = map.keySet().iterator(); it.hasNext(); ) {
+            String key = (String) it.next();
+            System.out.println(key + ": " + map.get(key));
+            System.out.println("str: " + map.getStr());
         }
     }
 
 
     public static void main(String[] args) {
         log.info("-----------------------------------");
-//
+
         Client client = new Client();
-
-        log.info(" --------- callFindBooks:  ");
-        client.callFindBooks();
-
-        log.info(" --------- callFindAllBooks:  ");
-        client.callFindAllBooks();
-
-        log.info(" --------- callFindAllBooksHehe:  ");
-        client.callFindAllBooksHehe();
+//
+//        log.info(" --------- callFindBooks:  ");
+//        client.callFindBooks();
+//
+//        log.info(" --------- callFindAllBooks:  ");
+//        client.callFindAllBooks();
+//
+//        log.info(" --------- callFindAllBooksHehe:  ");
+//        client.callFindAllBooksHehe();
 
         log.info(" --------- callTtt:  ");
         client.catTtt();
 
-       client.callTtt2();
-
-        client.rmap();
+//        client.callTtt2();
 
 
     }

@@ -7,9 +7,7 @@ import com.alibaba.dubbo.demo.vo.PageList;
 import com.alibaba.dubbo.demo.vo.SubList;
 import com.alibaba.dubbo.demo.vo.SubMap;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by HuQingmiao on 2015/4/7.
@@ -60,7 +58,20 @@ public class BookServiceImpl implements BookService {
         books.get(0).setaList(aList1);
         books.get(1).setaList(aList2);
 
-        return new PageList<Book>(books, 8);
+        List<String> abList = new ArrayList<String>();
+        abList.add("hhhhhhhhhhh");
+
+
+        Map<String, Long[]> abMap= new HashMap();
+        Long [] ls1 = new Long[]{2L,3L};
+        Long [] ls2 = new Long[]{35L,32L};
+        abMap.put("key1", ls1);
+        abMap.put("key2", ls2);
+
+        PageList pl=  new PageList<Book>(books, 8);
+        pl.setAbList(abList);
+        pl.setAbMap(abMap);
+        return pl;
     }
 
     public SubList<Book> findAllBooksHehe() {
