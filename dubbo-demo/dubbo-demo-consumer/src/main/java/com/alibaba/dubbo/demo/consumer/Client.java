@@ -1,19 +1,18 @@
 package com.alibaba.dubbo.demo.consumer;
 
 
-import ch.qos.logback.core.db.dialect.MySQLDialect;
 import com.alibaba.dubbo.demo.BookService;
 import com.alibaba.dubbo.demo.SerializeTestService;
-import com.alibaba.dubbo.demo.vo.Book;
-import com.alibaba.dubbo.demo.vo.MyFjArray;
-import com.alibaba.dubbo.demo.vo.PageList;
-import com.alibaba.dubbo.demo.vo.SubList;
+import com.alibaba.dubbo.demo.vo.*;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -67,16 +66,28 @@ public class Client {
         SerializeTestService serializeTestService = (SerializeTestService) context.getBean("serializeTestService");
         MyFjArray array = serializeTestService.ttt2();
 
-        List<Object> list =array.getAll();
-        for (Object obj : list) {
+
+        for (Object obj : array) {
             log.info(">> " + obj.toString());
+        }
+    }
+
+
+    public void rmap() {
+        BookService bookService = (BookService) context.getBean("bookService");
+        SubMap map=  bookService.rmap();
+
+        for(Iterator it = map.keySet().iterator();it.hasNext();){
+            String key = (String)it.next();
+            System.out.println(key+": "+map.get(key));
+            System.out.println("str: "+map.getStr());
         }
     }
 
 
     public static void main(String[] args) {
         log.info("-----------------------------------");
-
+//
         Client client = new Client();
 
         log.info(" --------- callFindBooks:  ");
@@ -91,6 +102,10 @@ public class Client {
         log.info(" --------- callTtt:  ");
         client.catTtt();
 
-//        client.callTtt2();
+       client.callTtt2();
+
+        client.rmap();
+
+
     }
 }

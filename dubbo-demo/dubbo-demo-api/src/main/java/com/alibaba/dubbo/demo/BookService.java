@@ -3,6 +3,7 @@ package com.alibaba.dubbo.demo;
 import com.alibaba.dubbo.demo.vo.Book;
 import com.alibaba.dubbo.demo.vo.PageList;
 import com.alibaba.dubbo.demo.vo.SubList;
+import com.alibaba.dubbo.demo.vo.SubMap;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface BookService {
     PageList<Book> findAllBooks();
 
     SubList<Book> findAllBooksHehe();
+
+    SubMap<String, Object> rmap();
 }

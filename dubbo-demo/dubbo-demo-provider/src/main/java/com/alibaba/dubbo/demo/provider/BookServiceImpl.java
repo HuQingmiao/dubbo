@@ -5,6 +5,7 @@ import com.alibaba.dubbo.demo.BookService;
 import com.alibaba.dubbo.demo.vo.Book;
 import com.alibaba.dubbo.demo.vo.PageList;
 import com.alibaba.dubbo.demo.vo.SubList;
+import com.alibaba.dubbo.demo.vo.SubMap;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,26 +37,30 @@ public class BookServiceImpl implements BookService {
 
     public PageList<Book> findAllBooks() {
         List<Book> books = this.findBooks("网络编程");
-        PageList<Book> pList = new PageList<Book>(books, 5);
 
-        for (Book book : pList) {
-            ArrayList<Book> aList = new ArrayList();
-            Book b = new Book();
-            b.setBookId(555L);
-            b.setPrice(220.0D);
-            b.setTitle("asdfasr不知道2");
-            aList.add(b);
+        ArrayList<Book> aList1 = new ArrayList();
+        Book b = new Book();
+        b.setBookId(555L);
+        b.setPrice(220.0D);
+        b.setTitle("slist1 BOOK　1");
+        aList1.add(b);
+        Book b2 = new Book();
+        b2.setBookId(55445L);
+        b2.setPrice(234420.0D);
+        b2.setTitle("slist1 BOOK　2");
+        aList1.add(b2);
 
-            Book b3 = new Book();
-            b3.setBookId(55445L);
-            b3.setPrice(234420.0D);
-            b3.setTitle("safasf");
-            aList.add(b3);
+        ArrayList<Book> aList2 = new ArrayList();
+        Book b3 = new Book();
+        b3.setBookId(33333333333333L);
+        b3.setPrice(23433420.0D);
+        b3.setTitle("slist2 BOOK");
+        aList2.add(b3);
 
-            book.setaList(aList);
-        }
+        books.get(0).setaList(aList1);
+        books.get(1).setaList(aList2);
 
-        return pList;
+        return new PageList<Book>(books, 8);
     }
 
     public SubList<Book> findAllBooksHehe() {
@@ -71,5 +76,12 @@ public class BookServiceImpl implements BookService {
         book2.setPublishTime(new java.sql.Date(new Date().getTime()));
         sList.setBook(book2);
         return sList;
+    }
+
+    public  SubMap<String, Object> rmap(){
+        SubMap map = new SubMap();
+        map.put("asdf", new String[]{"a","b"});
+        map.setStr("我不生知道");
+        return map;
     }
 }

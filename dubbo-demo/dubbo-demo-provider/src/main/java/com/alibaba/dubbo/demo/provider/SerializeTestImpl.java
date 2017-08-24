@@ -32,7 +32,7 @@ public class SerializeTestImpl implements SerializeTestService {
     @Override
     public MyFjArray ttt2() {
 
-        MyFjArray array = new MyFjArray();
+
 
         List<Object> list = new ArrayList<Object>();
 
@@ -44,7 +44,7 @@ public class SerializeTestImpl implements SerializeTestService {
         list.add(book2);
         list.add(book2);
 
-        array.addAll(list);
+        MyFjArray array = new MyFjArray(list);
 
         return array;
     }
