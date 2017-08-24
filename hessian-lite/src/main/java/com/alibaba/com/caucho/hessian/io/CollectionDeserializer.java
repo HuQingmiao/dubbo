@@ -86,7 +86,7 @@ public class CollectionDeserializer extends AbstractListDeserializer {
         try {
             Class clasz = list.getClass();
 
-            // 不处理fastjosn包下的JSONArray类
+            // 不处理fastjosn包下的JSONArray类, 2017-08-23
             if (!clasz.getName().startsWith("com.alibaba.fastjson")){
 
                 //记录已经读过的子类属性，以防被同名父类属性覆盖
