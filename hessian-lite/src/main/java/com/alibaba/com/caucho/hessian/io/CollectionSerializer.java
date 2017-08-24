@@ -95,7 +95,7 @@ public class CollectionSerializer extends AbstractSerializer {
             hasEnd = out.writeListBegin(list.size(), obj.getClass().getName());
 
         /**
-         * 修改序列化过程丢失属性的bug, 对继承自Collection并扩展了新属性的类，对其新增属性序列化逻辑。
+         * 修改序列化过程丢失属性的bug, 对继承自Collection并扩展了新属性的类，对其新增属性序列化。
          *
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
@@ -103,7 +103,7 @@ public class CollectionSerializer extends AbstractSerializer {
         try {
             Class clasz = list.getClass();
 
-            // 不处理fastjosn包下的JSONArray类
+            // 不处理fastjosn包下的JSONArray类, 2017-08-23
             if (!clasz.getName().startsWith("com.alibaba.fastjson")) {
 
                 //记录已经写过的子类属性，以防被同名父类属性覆盖
