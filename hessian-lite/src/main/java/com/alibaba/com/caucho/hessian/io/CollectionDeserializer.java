@@ -59,6 +59,7 @@ import java.util.*;
  */
 public class CollectionDeserializer extends AbstractListDeserializer {
 
+    //private Logger log = LoggerFactory.getLogger(this.getClass());
 
     private Class _type;
 
@@ -76,26 +77,22 @@ public class CollectionDeserializer extends AbstractListDeserializer {
 
         in.addRef(list);
 
-        //System.out.println(">>1 collection class: " + list.getClass().getName());
-
         /**
          * 修改序列化过程中导致属性丢失的bug：对继承自Collection并扩展了新属性的类，对其新增属性反序列化。
          *
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
         /** begin **/
+        //记录已经读过的子类属性，以防被同名父类属性覆盖
+        Set<String> fieldNameSet = new HashSet<String>();
         try {
             Class clasz = list.getClass();
 
-            //记录已经读过的子类属性，以防被同名父类属性覆盖
-            Set<String> fieldNameSet = new HashSet<String>();
-
             // 从当前自定义List子类逐层向上处理，对各层属性进行反序列化，直到java类库本身的List
             for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
-
                 Field[] fields = clasz.getDeclaredFields();
                 for (Field field : fields) {
-                    //System.out.println(">>1a " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());
+                    //log.debug(">>1 "+clasz.getSimpleName()+"."+field.getName()+" "+field.getType());
 
                     // 如果扩展的属性是Collection的子类，则不处理
                     if (Collection.class.isAssignableFrom(field.getType())) {
@@ -103,7 +100,7 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     }
 
                     // 子类属性已被读取，不再读取同名父属性
-                    if (fieldNameSet.contains(field.getName())) {
+                    if(fieldNameSet.contains(field.getName())){
                         continue;
                     }
                     if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
@@ -115,7 +112,7 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     }
 
                     Object val = in.readObject();
-                    //System.out.println(">>1b " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType() + " " + val);
+                    //log.debug(">>1 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType() + " " + val);
 
                     field.set(list, val);
                     field.setAccessible(isAccessible);
@@ -124,11 +121,10 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     fieldNameSet.add(field.getName());
                 }
             }
-            fieldNameSet.clear();
-
         } catch (IllegalAccessException e) {
             throw new IOException(e.getMessage());
         }
+        fieldNameSet.clear();
         /** end **/
 
 
@@ -146,26 +142,22 @@ public class CollectionDeserializer extends AbstractListDeserializer {
 
         in.addRef(list);
 
-        //System.out.println(">>2 collection class: " + list.getClass().getName());
-
         /**
          * 修改序列化过程中导致属性丢失的bug：对继承自Collection并扩展了新属性的类，对其新增属性反序列化。
          *
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
         /** begin **/
+        //记录已经读过的子类属性，以防被同名父类属性覆盖
+        Set<String> fieldNameSet = new HashSet<String>();
         try {
             Class clasz = list.getClass();
 
-            //记录已经读过的子类属性，以防被同名父类属性覆盖
-            Set<String> fieldNameSet = new HashSet<String>();
-
             // 从当前自定义List子类逐层向上处理，对各层属性进行反序列化，直到java类库本身的List
             for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
-
                 Field[] fields = clasz.getDeclaredFields();
                 for (Field field : fields) {
-                    //System.out.println(">>2a " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());
+                    //log.debug(">>2 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());
 
                     // 如果扩展的属性是Collection的子类，则不处理
                     if (Collection.class.isAssignableFrom(field.getType())) {
@@ -173,7 +165,7 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     }
 
                     // 子类属性已被读取，不再读取同名父属性
-                    if (fieldNameSet.contains(field.getName())) {
+                    if(fieldNameSet.contains(field.getName())){
                         continue;
                     }
                     if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
@@ -185,7 +177,7 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     }
 
                     Object val = in.readObject();
-                    //System.out.println(">>2b " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType() + " " + val);
+                    //log.debug(">>2 " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType() + " " + val);
 
                     field.set(list, val);
                     field.setAccessible(isAccessible);
@@ -194,11 +186,10 @@ public class CollectionDeserializer extends AbstractListDeserializer {
                     fieldNameSet.add(field.getName());
                 }
             }
-            fieldNameSet.clear();
-
         } catch (IllegalAccessException e) {
             throw new IOException(e.getMessage());
         }
+        fieldNameSet.clear();
         /** end **/
 
         for (; length > 0; length--)

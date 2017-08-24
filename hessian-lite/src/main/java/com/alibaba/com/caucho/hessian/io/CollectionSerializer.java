@@ -59,7 +59,7 @@ import java.util.*;
  * Serializing a JDK 1.2 Collection.
  */
 public class CollectionSerializer extends AbstractSerializer {
-
+    //private Logger log = LoggerFactory.getLogger(this.getClass());
 
     private boolean _sendJavaType = true;
 
@@ -83,7 +83,6 @@ public class CollectionSerializer extends AbstractSerializer {
             return;
 
         Collection list = (Collection) obj;
-        //System.out.println(">>collection class: " + list.getClass().getName());
 
         Class cl = obj.getClass();
         boolean hasEnd;
@@ -101,18 +100,16 @@ public class CollectionSerializer extends AbstractSerializer {
          * Added By HuQingmiao(443770574@qq.com) on 2017-03-25.
          */
         /** begin **/
+        //记录已经写过的子类属性，以防被同名父类属性覆盖
+        Set<String> fieldNameSet = new HashSet<String>();
         try {
-            //记录已经写过的子类属性，以防被同名父类属性覆盖
-            Set<String> fieldNameSet = new HashSet<String>();
-
             Class clasz = list.getClass();
 
-            // 从当前自定义List子类逐层向上处理，对各层属性进行序列化，直到java类库本身的List
+            // 从当前自定义List子类逐层向上处理，对各层属性进行反序列化，直到java类库本身的List
             for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
-
                 Field[] fields = clasz.getDeclaredFields();
                 for (Field field : fields) {
-                    //System.out.println(">>a " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());
+                    //log.debug(">> " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());
 
                     // 如果扩展的属性是Collection的子类，则不处理
                     if (Collection.class.isAssignableFrom(field.getType())) {
@@ -120,7 +117,7 @@ public class CollectionSerializer extends AbstractSerializer {
                     }
 
                     // 子类属性已被写入，不再写入同名父属性
-                    if (fieldNameSet.contains(field.getName())) {
+                    if(fieldNameSet.contains(field.getName())){
                         continue;
                     }
                     if (Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
@@ -132,7 +129,7 @@ public class CollectionSerializer extends AbstractSerializer {
                     }
 
                     Object val = field.get(list);
-                    //System.out.println(">>b " + clasz.getSimpleName() + " " + field.getName() + " " + field.getType() + " " + val);
+                    //log.debug(">> "+clasz.getSimpleName()+" "+field.getName()+" "+field.getType()+" "+val);
 
                     out.writeObject(val);
                     field.setAccessible(isAccessible);
@@ -141,11 +138,10 @@ public class CollectionSerializer extends AbstractSerializer {
                     fieldNameSet.add(field.getName());
                 }
             }
-            fieldNameSet.clear();
-
         } catch (IllegalAccessException e) {
             throw new IOException(e.getMessage());
         }
+        fieldNameSet.clear();
         /** end **/
 
         Iterator iter = list.iterator();
