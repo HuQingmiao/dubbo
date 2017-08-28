@@ -153,7 +153,6 @@ public class CollectionSerializer extends AbstractSerializer {
         } catch (IllegalAccessException e) {
             throw new IOException(e.getMessage());
         }
-
         /** end **/
 
         Iterator iter = list.iterator();
