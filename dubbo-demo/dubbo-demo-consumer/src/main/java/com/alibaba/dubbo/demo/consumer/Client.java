@@ -99,20 +99,20 @@ public class Client {
         log.info("-----------------------------------");
 
         Client client = new Client();
-//
-//        log.info(" --------- callFindBooks:  ");
-//        client.callFindBooks();
-//
-//        log.info(" --------- callFindAllBooks:  ");
-//        client.callFindAllBooks();
-//
-//        log.info(" --------- callFindAllBooksHehe:  ");
-//        client.callFindAllBooksHehe();
+
+        log.info(" --------- callFindBooks:  ");
+        client.callFindBooks();
+
+        log.info(" --------- callFindAllBooks:  ");
+        client.callFindAllBooks();
+
+        log.info(" --------- callFindAllBooksHehe:  ");
+        client.callFindAllBooksHehe();
 
         log.info(" --------- callTtt:  ");
         client.catTtt();
 
-//        client.callTtt2();
+        client.callTtt2();
 
 
     }

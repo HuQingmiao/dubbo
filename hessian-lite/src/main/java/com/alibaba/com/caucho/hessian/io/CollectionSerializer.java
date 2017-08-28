@@ -104,13 +104,26 @@ public class CollectionSerializer extends AbstractSerializer {
             Class clasz = list.getClass();
 
             // 不处理fastjosn包下的JSONArray类, 2017-08-23
-            if (!clasz.getName().startsWith("com.alibaba.fastjson")) {
+            //if (!clasz.getName().startsWith("com.alibaba.fastjson")) {
 
                 //记录已经写过的子类属性，以防被同名父类属性覆盖
                 Set<String> fieldNameSet = new HashSet<String>();
 
                 // 从当前自定义List子类逐层向上处理，对各层属性进行序列化，直到java类库本身的List
                 for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
+
+                    // 如果当前类直接实现了List或Set接口，则不对其元素进行读写. 2017-08-28
+                    boolean impListOrSet = false;
+                    for (Class c : clasz.getInterfaces()) {
+                        if (List.class.equals(c) || Set.class.equals(c)) {
+                            impListOrSet = true;
+                            break;
+                        }
+                    }
+                    if (impListOrSet) {
+                        continue;
+                    }
+
                     Field[] fields = clasz.getDeclaredFields();
                     for (Field field : fields) {
                         //log.debug(">> " + clasz.getSimpleName() + "." + field.getName() + " " + field.getType());
@@ -139,7 +152,7 @@ public class CollectionSerializer extends AbstractSerializer {
                 }// end for (; !clasz.getName()
 
                 fieldNameSet.clear();
-            }
+//            }
         } catch (IllegalAccessException e) {
             throw new IOException(e.getMessage());
         }
