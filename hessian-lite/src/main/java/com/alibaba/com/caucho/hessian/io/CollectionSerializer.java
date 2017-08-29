@@ -106,18 +106,24 @@ public class CollectionSerializer extends AbstractSerializer {
             //记录已经写过的子类属性，以防被同名父类属性覆盖
             Set<String> fieldNameSet = new HashSet<String>();
 
-            // 从当前自定义List子类逐层向上处理，对各层属性进行序列化，直到java类库本身的抽象类(如AbstractCollection, AbstarctSet, AbstractList等)
+            // 从当前自定义List子类逐层向上处理，对各层属性进行序列化
             for (; !clasz.getName().startsWith("java."); clasz = clasz.getSuperclass()) {
 
                 // 如果当前类直接实现了List或Set接口，则不对其元素进行读写. 2017-08-28
                 boolean impListOrSet = false;
                 for (Class c : clasz.getInterfaces()) {
-                    if (List.class.equals(c) || Set.class.equals(c) || Collection.class.equals(c)) {
+                    if (List.class.equals(c) | Set.class.equals(c) | SortedSet.class.equals(c) | Collection.class.equals(c)) {
                         impListOrSet = true;
                         break;
                     }
                 }
                 if (impListOrSet) {
+                    continue;
+                }
+
+                // 如果当前类直接继承AbstractCollection/AbstractList/ABstractSet类，则不对其元素进行读写. 2017-08-29
+                Class sc = clasz.getSuperclass();
+                if (AbstractList.class.equals(sc) | AbstractSet.class.equals(sc) | AbstractCollection.class.equals(sc)) {
                     continue;
                 }
 
